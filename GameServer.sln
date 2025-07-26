@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServer", "GameServer\GameServer.csproj", "{1881CFBA-BC96-44BF-BF16-C18DB91529BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCommon", "GameCommon\GameCommon.csproj", "{8C8C6DDC-D884-4E3A-8045-55469EA2A39D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetClient", "NetClient\NetClient.csproj", "{0AE9C22C-76A9-4926-A309-69D64A21C195}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1881CFBA-BC96-44BF-BF16-C18DB91529BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1881CFBA-BC96-44BF-BF16-C18DB91529BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1881CFBA-BC96-44BF-BF16-C18DB91529BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1881CFBA-BC96-44BF-BF16-C18DB91529BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C8C6DDC-D884-4E3A-8045-55469EA2A39D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C8C6DDC-D884-4E3A-8045-55469EA2A39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C8C6DDC-D884-4E3A-8045-55469EA2A39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C8C6DDC-D884-4E3A-8045-55469EA2A39D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AE9C22C-76A9-4926-A309-69D64A21C195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AE9C22C-76A9-4926-A309-69D64A21C195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AE9C22C-76A9-4926-A309-69D64A21C195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AE9C22C-76A9-4926-A309-69D64A21C195}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
