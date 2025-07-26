@@ -1,9 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
-using GameCommon.Network;
-using GameCommon.Protos;
 
-namespace GameServer.Network;
+namespace GameCommon.Network;
 
 public class NetConnection
 {

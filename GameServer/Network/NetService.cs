@@ -47,6 +47,8 @@ public class NetService
         var v = Vector3.Parser.ParseFrom(data);
 
         Console.WriteLine(v);
+        
+        MessageRouter.Instance.AddMessage(receiver, v);
     }
 
     private void ConnectionOnDisconnected(NetConnection connection)

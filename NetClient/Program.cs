@@ -15,6 +15,7 @@ Console.WriteLine("已连接到服务器：" + socket.RemoteEndPoint);
 var v = new Vector3 { X = 100, Y = 200, Z = 300 };
 await SendMessage(v.ToByteArray(), socket);
 
+Console.ReadKey();
 
 static async Task SendMessage(byte[] messageBody, Socket socket)
 {
