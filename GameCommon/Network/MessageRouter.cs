@@ -1,10 +1,11 @@
-﻿using Google.Protobuf;
+﻿using System.Diagnostics;
+using Google.Protobuf;
 
 namespace GameCommon.Network;
 
 public class MessageRouter : Singleton<MessageRouter>
 {
-    public delegate void MessageHandler<in TMessage>(NetConnection connection, TMessage message)
+    public delegate void ProcessMessageHandler<in TMessage>(NetConnection connection, TMessage message)
         where TMessage : IMessage;
 
     private record MessageUnit(NetConnection Connection, IMessage Message);
@@ -19,27 +20,29 @@ public class MessageRouter : Singleton<MessageRouter>
         Console.WriteLine(_messageUnitQueue.Count);
     }
 
-    public void Subscribe<TMessage>(MessageHandler<TMessage> messageHandler) where TMessage : IMessage
+    public void Subscribe<TMessage>(ProcessMessageHandler<TMessage> processMessageHandler) where TMessage : IMessage
     {
         var messageType = typeof(TMessage);
 
         if (_messageTypeToHandler.ContainsKey(messageType))
         {
-            _messageTypeToHandler[messageType] = Delegate.Combine(_messageTypeToHandler[messageType], messageHandler);
+            _messageTypeToHandler[messageType] = Delegate.Combine(_messageTypeToHandler[messageType], processMessageHandler);
         }
         else
         {
-            _messageTypeToHandler.Add(messageType, messageHandler);
+            _messageTypeToHandler.Add(messageType, processMessageHandler);
         }
+
+        Console.WriteLine($"{messageType}委托长度 : {_messageTypeToHandler[messageType]?.GetInvocationList().Length ?? 0}");
     }
 
-    public void Unsubscribe<TMessage>(MessageHandler<TMessage> messageHandler) where TMessage : IMessage
+    public void Unsubscribe<TMessage>(ProcessMessageHandler<TMessage> processMessageHandler) where TMessage : IMessage
     {
         var messageType = typeof(TMessage);
 
         if (_messageTypeToHandler.ContainsKey(messageType))
         {
-            _messageTypeToHandler[messageType] = Delegate.Remove(_messageTypeToHandler[messageType], messageHandler);
+            _messageTypeToHandler[messageType] = Delegate.Remove(_messageTypeToHandler[messageType], processMessageHandler);
         }
     }
 }
