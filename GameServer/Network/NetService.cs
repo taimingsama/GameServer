@@ -44,11 +44,9 @@ public class NetService
 
     private void ConnectionOnDataReceived(NetConnection receiver, byte[] data)
     {
-        var v = Vector3.Parser.ParseFrom(data);
+        var package = Package.Parser.ParseFrom(data);
 
-        Console.WriteLine(v);
-        
-        MessageRouter.Instance.AddMessage(receiver, v);
+        MessageRouter.Instance.AddMessage(receiver, package);
     }
 
     private void ConnectionOnDisconnected(NetConnection connection)

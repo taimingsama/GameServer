@@ -12,4 +12,11 @@ MessageRouter.Instance.Subscribe<Vector3>((c, v) => { Console.WriteLine(v); });
 MessageRouter.Instance.Subscribe<Vector3>((c, v) => { Console.WriteLine(v); });
 MessageRouter.Instance.Subscribe<Vector3>((c, v) => { Console.WriteLine(v); });
 
+MessageRouter.Instance.Subscribe<UserRegisterRequest>((c, m) => { Console.WriteLine(m); });
+MessageRouter.Instance.Subscribe<UserRegisterRequest>((c, m) => { Console.WriteLine(c); });
+
+await MessageRouter.Instance.Start();
+
 Console.ReadKey();
+
+await MessageRouter.Instance.Stop();

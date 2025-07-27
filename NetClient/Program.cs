@@ -12,8 +12,22 @@ await socket.ConnectAsync(ipEndPoint);
 
 Console.WriteLine("已连接到服务器：" + socket.RemoteEndPoint);
 
-var v = new Vector3 { X = 100, Y = 200, Z = 300 };
-await SendMessage(v.ToByteArray(), socket);
+// var v = new Vector3 { X = 100, Y = 200, Z = 300 };
+// await SendMessage(v.ToByteArray(), socket);
+
+var package = new Package
+{
+    Request = new Request
+    {
+        UserRegisterRequest = new UserRegisterRequest
+        {
+            Username = "TaiMing",
+            Password = "123456",
+        }
+    }
+};
+
+await SendMessage(package.ToByteArray(), socket);
 
 Console.ReadKey();
 
