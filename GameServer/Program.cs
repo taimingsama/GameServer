@@ -8,10 +8,6 @@ netService.Init(32510);
 
 netService.Start();
 
-MessageRouter.Instance.Subscribe<Vector3>((c, v) => { Console.WriteLine(v); });
-MessageRouter.Instance.Subscribe<Vector3>((c, v) => { Console.WriteLine(v); });
-MessageRouter.Instance.Subscribe<Vector3>((c, v) => { Console.WriteLine(v); });
-
 MessageRouter.Instance.Subscribe<UserRegisterRequest>((c, m) => { Console.WriteLine(m); });
 MessageRouter.Instance.Subscribe<UserRegisterRequest>((c, m) => { Console.WriteLine(c); });
 

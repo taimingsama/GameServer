@@ -6,18 +6,23 @@
     /// @Date 2023-02-16 21:13:03
     /// </summary>
     [Serializable]
-    public class ByteBuffer
+    public class ByteBuffer : IDisposable
     {
         //字节缓存区，需保证数组中都是大端模式数据，否则容易出错
         private byte[] _buf;
+
         //读取索引
         private int readIndex = 0;
+
         //写入索引
         private int writeIndex = 0;
+
         //读取索引标记
         private int markReadIndex = 0;
+
         //写入索引标记
         private int markWirteIndex = 0;
+
         //缓存区字节数组的长度
         private int capacity;
 
@@ -70,6 +75,7 @@
             {
                 return new ByteBuffer(capacity);
             }
+
             lock (pool)
             {
                 ByteBuffer bbuf;
@@ -77,11 +83,13 @@
                 {
                     return new ByteBuffer(capacity) { isPool = true };
                 }
+
                 bbuf = pool.Dequeue();
                 bbuf.isPool = true;
                 return bbuf;
             }
         }
+
         /// <summary>
         /// 构建缓冲区
         /// </summary>
@@ -108,6 +116,7 @@
             {
                 return 1;
             }
+
             value--;
             value |= value >> 1;
             value |= value >> 2;
@@ -128,6 +137,7 @@
             {
                 Array.Reverse(bytes);
             }
+
             return bytes;
         }
 
@@ -148,11 +158,13 @@
                     //以将来的大小的2次方的两倍确定内部字节缓存区大小
                     size = FixLength(futureLen) * 2;
                 }
+
                 byte[] newbuf = new byte[size];
                 Array.Copy(_buf, 0, newbuf, 0, currLen);
                 _buf = newbuf;
                 capacity = size;
             }
+
             return futureLen;
         }
 
@@ -681,11 +693,13 @@
                 //markReadIndex = readIndex;
                 markReadIndex = 0;
             }
+
             markWirteIndex -= readIndex;
             if (markWirteIndex < 0 || markWirteIndex < readIndex || markWirteIndex < markReadIndex)
             {
                 markWirteIndex = writeIndex;
             }
+
             readIndex = 0;
         }
 
@@ -694,10 +708,7 @@
         /// </summary>
         public int ReaderIndex
         {
-            get
-            {
-                return readIndex;
-            }
+            get { return readIndex; }
             set
             {
                 if (value < 0) return;
@@ -710,10 +721,7 @@
         /// </summary>
         public int WriterIndex
         {
-            get
-            {
-                return writeIndex;
-            }
+            get { return writeIndex; }
             set
             {
                 if (value < 0) return;
@@ -759,10 +767,7 @@
         /// <returns>可读的字节数</returns>
         public int ReadableBytes
         {
-            get
-            {
-                return writeIndex - readIndex;
-            }
+            get { return writeIndex - readIndex; }
         }
 
         /// <summary>
@@ -771,10 +776,7 @@
         /// <returns>缓存区容量</returns>
         public int Capacity
         {
-            get
-            {
-                return this.capacity;
-            }
+            get { return this.capacity; }
         }
 
         /// <summary>
@@ -798,6 +800,7 @@
             {
                 return new ByteBuffer(16);
             }
+
             if (readIndex < writeIndex)
             {
                 byte[] newbytes = new byte[writeIndex - readIndex];
@@ -807,6 +810,7 @@
                 buffer.isPool = this.isPool;
                 return buffer;
             }
+
             return new ByteBuffer(16);
         }
 
@@ -820,6 +824,7 @@
             {
                 return new ByteBuffer(16);
             }
+
             ByteBuffer newBuf = new ByteBuffer(_buf)
             {
                 capacity = this.capacity,
@@ -866,13 +871,11 @@
             {
                 lock (pool)
                 {
-                    
                     if (pool.Count < poolMaxCount)
                     {
                         this.Clear();
                         pool.Enqueue(this);
                     }
-
                 }
             }
             else
@@ -884,8 +887,6 @@
                 markWirteIndex = 0;
                 capacity = 0;
             }
-            
         }
     }
-
 }

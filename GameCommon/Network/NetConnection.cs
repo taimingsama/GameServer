@@ -1,5 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using GameCommon.Protos;
+using Google.Protobuf;
 
 namespace GameCommon.Network;
 
@@ -30,6 +32,26 @@ public class NetConnection
 
     public EndPoint RemoteEndPoint => _socket.RemoteEndPoint!;
 
+    public void Send(byte[] data, int offset, int size)
+    {
+        if (_socket.Connected)
+        {
+            _socket.BeginSend(data, offset, size, SocketFlags.None, SocketOnSent, null);
+        }
+    }
+
+    public void Send(Package package)
+    {
+        using var memoryStream = new MemoryStream();
+
+        memoryStream.Write(BitConverter.GetBytes(package.CalculateSize()), 0, sizeof(int));
+        package.WriteTo(memoryStream);
+
+        var targetSendBytes = memoryStream.GetBuffer();
+
+        Send(targetSendBytes, 0, targetSendBytes.Length);
+    }
+
     public void Close()
     {
         try
@@ -47,12 +69,17 @@ public class NetConnection
     private void DecoderOnDataReceived(byte[] data)
     {
         // 处理接收到的数据
-        
+
         _dataReceived(this, data);
     }
 
     private void DecoderOnDisconnected(Socket soc)
     {
         _disconnected(this);
+    }
+
+    private void SocketOnSent(IAsyncResult ar)
+    {
+        var sentLen = _socket.EndSend(ar);
     }
 }
